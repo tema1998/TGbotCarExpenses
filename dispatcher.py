@@ -2,6 +2,7 @@ import logging
 from aiogram import Bot, Dispatcher
 from filters import IsOwnerFilter, IsAdminFilter, MemberCanRestrictFilter
 import config
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 
 # Configure logging
@@ -12,8 +13,9 @@ if not config.BOT_TOKEN:
     exit("No token provided")
 
 # init
+storage = MemoryStorage()
 bot = Bot(token=config.BOT_TOKEN, parse_mode="HTML")
-dp = Dispatcher(bot)
+dp = Dispatcher(bot, storage=storage)
 
 # activate filters
 dp.filters_factory.bind(IsOwnerFilter)
